@@ -1,0 +1,92 @@
+.group-expense-details-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.enter-budget-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    flex-basis: content;
+}
+
+.enter-budget-container input,
+.enter-budget-container select {
+    width: 10rem;
+    margin-bottom: 12px
+}
+
+.heading {
+    color: var(--primary)
+}
+
+/* Tag Container */
+.tag-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    /* Space between tags */
+    padding: 10px 0;
+}
+
+/* Tag Button */
+.tag {
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    border: 2px solid var(--primary, #007bff);
+    border-radius: 20px;
+    background-color: var(--background-light, #fff);
+    color: var(--text-light, #007bff);
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Hover State for Tags */
+.tag:hover {
+    background-color: var(--primary, #e0f0ff);
+    border-color: var(--primary, #007bff);
+}
+
+/* Selected Tag */
+.tag:active,
+.tag.selected {
+    background-color: var(--primary, #007bff);
+    color: var(--text-light, #fff);
+    border-color: var(--primary, #007bff);
+}
+
+/* Optional: Add focus styles for accessibility */
+.tag:focus {
+    outline: 2px dashed var(--primary, #007bff);
+    outline-offset: 3px;
+}
+
+
+.table-chart-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.charts {
+    width: 20rem;
+}
+
+.expense-adding-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.expense-adding-container input,
+.expense-adding-container select {
+    width: 10rem
+}
+
+.negative-value h3 {
+    color: aqua !important
+}

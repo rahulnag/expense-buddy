@@ -1,0 +1,53 @@
+{
+    "members": [
+        "a",
+        "b",
+        "c"
+    ],
+    "tags": [
+        "grocery",
+        "non-veg",
+        "vegetables",
+        "others",
+        "junk food",
+        "shopping",
+        "house rent",
+        "petrol"
+    ],
+    "expenseDetails": {
+        "jan": {
+            "budget": 15000,
+            "expense": [
+                {
+                    "amount": 1000,
+                    "tag": "grocery",
+                    "entered-by": "a",
+                    "date": ""
+                },
+                {
+                    "amount": 1000,
+                    "tag": "grocery",
+                    "entered-by": "c",
+                    "date": ""
+                }
+            ]
+        },
+        "feb": {
+            "budget": 15000,
+            "expense": [
+                {
+                    "amount": 2000,
+                    "tag": "grocery",
+                    "entered-by": "b",
+                    "date": ""
+                },
+                {
+                    "amount": 1000,
+                    "tag": "grocery",
+                    "entered-by": "c",
+                    "date": ""
+                }
+            ]
+        }
+    }
+}
