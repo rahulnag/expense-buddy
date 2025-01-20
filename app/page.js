@@ -62,17 +62,17 @@ const defaultData = {
 
 export default function Home() {
   const [groupPassword, setGroupPassword] = useState(
-    JSON.parse(localStorage.getItem("userdetails"))?.groupPassword
+    localStorage.getItem("userdetails")
       ? JSON.parse(localStorage.getItem("userdetails"))?.groupPassword
       : ""
   );
   const [groupName, setGroupName] = useState(
-    JSON.parse(localStorage.getItem("userdetails"))?.groupName
+    localStorage.getItem("userdetails")
       ? JSON.parse(localStorage.getItem("userdetails"))?.groupName
       : ""
   );
   const [name, setName] = useState(
-    JSON.parse(localStorage.getItem("userdetails"))?.name
+    localStorage.getItem("userdetails")
       ? JSON.parse(localStorage.getItem("userdetails"))?.name
       : ""
   );

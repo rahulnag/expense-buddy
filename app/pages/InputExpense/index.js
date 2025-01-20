@@ -236,7 +236,12 @@ const InputExpense = ({ groupData, setGroupData }) => {
                   </h3>
                   <small>
                     Remaining amount:{" "}
-                    <span style={{ color: remainingBudget < 0 ? "red" : "" }}>
+                    <span
+                      style={{
+                        color: remainingBudget < 0 ? "red" : "",
+                        fontWeight: "bold",
+                      }}
+                    >
                       ({remainingBudget})
                     </span>
                   </small>
