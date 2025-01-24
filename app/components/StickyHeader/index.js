@@ -18,7 +18,7 @@ const StickyHeader = () => {
             <small>
               Welcome{" "}
               {JSON.parse(
-                widow.localStorage.getItem("userdetails")
+                window.localStorage.getItem("userdetails")
               )?.name.toUpperCase()}
             </small>
           </div>
