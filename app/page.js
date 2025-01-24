@@ -61,27 +61,37 @@ const defaultData = {
 };
 
 export default function Home() {
-  const [groupPassword, setGroupPassword] = useState(
-    localStorage.getItem("userdetails")
-      ? JSON.parse(localStorage.getItem("userdetails"))?.groupPassword
-      : ""
-  );
-  const [groupName, setGroupName] = useState(
-    localStorage.getItem("userdetails")
-      ? JSON.parse(localStorage.getItem("userdetails"))?.groupName
-      : ""
-  );
-  const [name, setName] = useState(
-    localStorage.getItem("userdetails")
-      ? JSON.parse(localStorage.getItem("userdetails"))?.name
-      : ""
-  );
+  const [groupPassword, setGroupPassword] = useState();
+  const [groupName, setGroupName] = useState();
+  const [name, setName] = useState("");
   const [groupData, setGroupData] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const [showPassField, setShowPassField] = useState(false);
   const [showNameField, setShowNameField] = useState(false);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setGroupPassword(
+        window.localStorage.getItem("userdetails")
+          ? JSON.parse(window.localStorage.getItem("userdetails"))
+              ?.groupPassword
+          : ""
+      );
+
+      setGroupName(
+        window.localStorage.getItem("userdetails")
+          ? JSON.parse(window.localStorage.getItem("userdetails"))?.groupName
+          : ""
+      );
+
+      setName(
+        window.localStorage.getItem("userdetails")
+          ? JSON.parse(window.localStorage.getItem("userdetails"))?.name
+          : ""
+      );
+    }
+  }, []);
   const inputValidation = () => {
     let retVal = false;
     if (groupName == "") {
@@ -128,10 +138,10 @@ export default function Home() {
                 },
                 "Group created successfully!"
               );
-              if (result.msg == "SUCCESS") {
+              if (result.msg == "SUCCESS" && typeof window !== "undefined") {
                 //save data to localstorage
                 setGroupData(result);
-                localStorage.setItem(
+                window.localStorage.setItem(
                   "userdetails",
                   JSON.stringify({
                     groupName: groupName,
@@ -154,9 +164,20 @@ export default function Home() {
             setName("");
             setGroupData("");
           }
-        } else if (result == "Wrong credentials") {
+        } else if (
+          result == "Wrong credentials" &&
+          typeof window !== "undefined"
+        ) {
           //might be the credential is wrong
           setShowPassField(true);
+          if (
+            JSON.parse(window.localStorage.getItem("userdetails"))?.name ==
+              "" ||
+            JSON.parse(window.localStorage.getItem("userdetails"))?.name ==
+              undefined
+          ) {
+            setShowNameField(true);
+          }
           window.alert(
             "Group already available, either enter correct password to join the group or choose different group name to create one"
           );
@@ -164,16 +185,18 @@ export default function Home() {
           window.alert("Something went wrong");
         } else {
           //if group check does not returns error then connect user to the group
-          setGroupData(result);
-          localStorage.setItem(
-            "userdetails",
-            JSON.stringify({
-              groupName: groupName,
-              groupPassword: groupPassword,
-              name: name,
-            })
-          );
-          setIsLoggedIn(true);
+          if (typeof window !== "undefined") {
+            setGroupData(result);
+            window.localStorage.setItem(
+              "userdetails",
+              JSON.stringify({
+                groupName: groupName,
+                groupPassword: groupPassword,
+                name: name,
+              })
+            );
+            setIsLoggedIn(true);
+          }
         }
       } catch (error) {
         console.error("Error:", error); // Logs: FAILURE

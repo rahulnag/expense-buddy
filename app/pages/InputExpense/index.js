@@ -24,11 +24,7 @@ const months = [
 ];
 
 const InputExpense = ({ groupData, setGroupData }) => {
-  const [selectedMonth, setSelectedMonth] = useState(
-    localStorage.getItem("month") !== undefined
-      ? localStorage.getItem("month")
-      : months[0]
-  );
+  const [selectedMonth, setSelectedMonth] = useState();
   const [expense, setExpense] = useState("");
   const [budget, setBudget] = useState(
     groupData?.expenseDetails?.[selectedMonth]?.budget
@@ -41,7 +37,7 @@ const InputExpense = ({ groupData, setGroupData }) => {
   const handleMonthChange = (month) => {
     setSelectedMonth(month);
     //save to locastorage so that no need to change it everytime
-    if (window) {
+    if (typeof window !== "undefined") {
       window.localStorage.setItem("month", month);
     }
     getGroupData();
@@ -53,7 +49,7 @@ const InputExpense = ({ groupData, setGroupData }) => {
 
   const saveExpense = async () => {
     //save expense to the group name and to the current month month
-    if (expense && tag) {
+    if (expense && tag && typeof window !== "undefined") {
       const currentDateAndTime = new Date();
       const dateObj = new Date(currentDateAndTime);
       try {
@@ -61,8 +57,9 @@ const InputExpense = ({ groupData, setGroupData }) => {
           "/api/save-expense",
           {
             expense: {
-              "entered-by": JSON.parse(localStorage.getItem("userdetails"))
-                ?.name,
+              "entered-by": JSON.parse(
+                window.localStorage.getItem("userdetails")
+              )?.name,
               amount: expense,
               tag: tag,
               date:
@@ -92,14 +89,16 @@ const InputExpense = ({ groupData, setGroupData }) => {
   };
 
   const getGroupData = async () => {
-    const data = await saveToDb("/api/get-group-info", {
-      groupName: JSON.parse(localStorage.getItem("userdetails"))?.groupName,
-    });
+    if (typeof window !== "undefined") {
+      const data = await saveToDb("/api/get-group-info", {
+        groupName: JSON.parse(localStorage.getItem("userdetails"))?.groupName,
+      });
 
-    if (data !== "Error") {
-      setGroupData(data);
-    } else {
-      setGroupData("Error");
+      if (data !== "Error") {
+        setGroupData(data);
+      } else {
+        setGroupData("Error");
+      }
     }
   };
 
@@ -107,14 +106,16 @@ const InputExpense = ({ groupData, setGroupData }) => {
     if (budget == "" || selectedMonth == "") {
       alert("Please enter budget and month");
     } else {
-      const data = await saveToDb("/api/save-budget", {
-        budget: budget,
-        groupName: JSON.parse(localStorage.getItem("userdetails"))?.groupName,
-        month: selectedMonth,
-      });
+      if (typeof window !== "undefined") {
+        const data = await saveToDb("/api/save-budget", {
+          budget: budget,
+          groupName: JSON.parse(localStorage.getItem("userdetails"))?.groupName,
+          month: selectedMonth,
+        });
 
-      if (data !== "Error") {
-        getGroupData();
+        if (data !== "Error") {
+          getGroupData();
+        }
       }
     }
   };
@@ -124,16 +125,19 @@ const InputExpense = ({ groupData, setGroupData }) => {
       if (groupData?.tags.includes(newTag)) {
         alert("Tag already available");
       } else {
-        const data = await saveToDb("/api/save-tags", {
-          budget: budget,
-          groupName: JSON.parse(localStorage.getItem("userdetails"))?.groupName,
-          tags: newTag,
-        });
+        if (typeof window !== "undefined") {
+          const data = await saveToDb("/api/save-tags", {
+            budget: budget,
+            groupName: JSON.parse(localStorage.getItem("userdetails"))
+              ?.groupName,
+            tags: newTag,
+          });
 
-        if (data !== "Error") {
-          getGroupData();
-          setNewTag("");
-          setTagInput(false);
+          if (data !== "Error") {
+            getGroupData();
+            setNewTag("");
+            setTagInput(false);
+          }
         }
       }
     } else {
@@ -141,9 +145,9 @@ const InputExpense = ({ groupData, setGroupData }) => {
     }
   };
   useEffect(() => {
-    if (window) {
+    if (typeof window !== "undefined") {
       if (window.localStorage.getItem("month") == undefined) {
-        localStorage.setItem("month", months[0]);
+        window.localStorage.setItem("month", months[0]);
         setSelectedMonth(months[0]);
       }
     }
