@@ -23,8 +23,19 @@ const months = [
   "December",
 ];
 
+const getMonth = () => {
+  if (typeof window !== "undefined") {
+    if (window.localStorage.getItem("month") == undefined) {
+      window.localStorage.setItem("month", months[0]);
+      return months[0];
+    } else {
+      return window.localStorage.getItem("month");
+    }
+  }
+};
+
 const InputExpense = ({ groupData, setGroupData }) => {
-  const [selectedMonth, setSelectedMonth] = useState();
+  const [selectedMonth, setSelectedMonth] = useState(() => getMonth());
   const [expense, setExpense] = useState("");
   const [budget, setBudget] = useState(
     groupData?.expenseDetails?.[selectedMonth]?.budget
@@ -144,14 +155,14 @@ const InputExpense = ({ groupData, setGroupData }) => {
       alert("Please enter tag");
     }
   };
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (window.localStorage.getItem("month") == undefined) {
-        window.localStorage.setItem("month", months[0]);
-        setSelectedMonth(months[0]);
-      }
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (typeof window !== "undefined") {
+  //     if (window.localStorage.getItem("month") == undefined) {
+  //       window.localStorage.setItem("month", months[0]);
+  //       setSelectedMonth(months[0]);
+  //     }
+  //   }
+  // }, []);
 
   useEffect(() => {
     setRemainingBudget(calculateRemainingBudget());
