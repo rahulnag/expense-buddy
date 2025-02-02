@@ -60,38 +60,60 @@ const defaultData = {
   },
 };
 
+const getGroupPass = () => {
+  if (typeof window !== "undefined") {
+    return window.localStorage.getItem("userdetails")
+      ? JSON.parse(window.localStorage.getItem("userdetails"))?.groupPassword
+      : "";
+  }
+};
+const getGroupName = () => {
+  if (typeof window !== "undefined") {
+    return window.localStorage.getItem("userdetails")
+      ? JSON.parse(window.localStorage.getItem("userdetails"))?.groupName
+      : "";
+  }
+};
+const getName = () => {
+  if (typeof window !== "undefined") {
+    return window.localStorage.getItem("userdetails")
+      ? JSON.parse(window.localStorage.getItem("userdetails"))?.name
+      : "";
+  }
+};
+
 export default function Home() {
-  const [groupPassword, setGroupPassword] = useState();
-  const [groupName, setGroupName] = useState();
-  const [name, setName] = useState("");
+  const [groupPassword, setGroupPassword] = useState(() => getGroupPass());
+  const [groupName, setGroupName] = useState(() => getGroupName());
+  const [name, setName] = useState(() => getName());
   const [groupData, setGroupData] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const [showPassField, setShowPassField] = useState(false);
   const [showNameField, setShowNameField] = useState(false);
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setGroupPassword(
-        window.localStorage.getItem("userdetails")
-          ? JSON.parse(window.localStorage.getItem("userdetails"))
-              ?.groupPassword
-          : ""
-      );
+  // useEffect(() => {
+  //   if (typeof window !== "undefined") {
+  //     setGroupPassword(
+  //       window.localStorage.getItem("userdetails")
+  //         ? JSON.parse(window.localStorage.getItem("userdetails"))
+  //             ?.groupPassword
+  //         : ""
+  //     );
 
-      setGroupName(
-        window.localStorage.getItem("userdetails")
-          ? JSON.parse(window.localStorage.getItem("userdetails"))?.groupName
-          : ""
-      );
+  //     setGroupName(
+  //       window.localStorage.getItem("userdetails")
+  //         ? JSON.parse(window.localStorage.getItem("userdetails"))?.groupName
+  //         : ""
+  //     );
 
-      setName(
-        window.localStorage.getItem("userdetails")
-          ? JSON.parse(window.localStorage.getItem("userdetails"))?.name
-          : ""
-      );
-    }
-  }, []);
+  //     setName(
+  //       window.localStorage.getItem("userdetails")
+  //         ? JSON.parse(window.localStorage.getItem("userdetails"))?.name
+  //         : ""
+  //     );
+  //   }
+  // }, []);
   const inputValidation = () => {
     let retVal = false;
     if (groupName == "") {
